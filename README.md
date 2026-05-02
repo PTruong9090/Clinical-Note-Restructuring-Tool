@@ -7,7 +7,7 @@ Take-home MVP that turns unstructured ER and H&P notes into a structured clinica
 - Frontend: React, Vite, Tailwind CSS.
 - Backend: Express, Sequelize, PostgreSQL.
 - AI: Provider-neutral LLM configuration with a schema-constrained generation layer. Current adapters support Gemini and OpenAI.
-- Deploy target: Cloudflare Pages for the frontend, Render for the backend, Supabase Postgres for the database.
+- Deploy target: Cloudflare Pages for the frontend, Render for the backend, Render Postgres for the database.
 
 The backend owns all generation and persistence. The frontend calls `/api/generate`, lets the user edit the generated fields, then saves both generated and edited content to the database.
 
