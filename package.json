@@ -1,0 +1,21 @@
+{
+  "name": "clinical-note-restructuring-tool",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Full-stack clinical note restructuring tool for generating structured summaries and revised HPIs.",
+  "workspaces": [
+    "server",
+    "client"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace server",
+    "dev:server": "npm run dev --workspace server",
+    "dev:client": "npm run dev --workspace client",
+    "build": "npm run build --workspace client",
+    "test": "npm run test --workspaces --if-present",
+    "start": "npm run start --workspace server"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
