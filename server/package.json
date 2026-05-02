@@ -5,6 +5,7 @@
   "main": "src/server.js",
   "scripts": {
     "dev": "nodemon src/server.js",
+    "build": "node --check src/server.js && node --check src/app.js",
     "start": "node src/server.js",
     "migrate": "node scripts/migrate.js",
     "test": "vitest run"
