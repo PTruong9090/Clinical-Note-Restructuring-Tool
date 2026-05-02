@@ -84,7 +84,7 @@ Backend defaults to `http://localhost:4000`; frontend defaults to `http://localh
 
 Backend on Render:
 
-- Build command: `npm install`
+- Build command: `npm install && npm run build --workspace server`
 - Start command: `npm run migrate --workspace server && npm run start --workspace server`
 - Environment: `DATABASE_URL`, `LLM_PROVIDER`, `LLM_API_KEY`, `LLM_MODEL`, `USE_LLM`, `CORS_ORIGIN`
 
