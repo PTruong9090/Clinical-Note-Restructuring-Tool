@@ -1,6 +1,7 @@
 import { Save, Sparkles } from "lucide-react";
 import { useMemo, useState } from "react";
 import { generateClinicalNote, saveCase } from "../api/client.js";
+import { AdmissionCriteriaList } from "../components/AdmissionCriteriaList.jsx";
 import { Button } from "../components/Button.jsx";
 import { EvidenceList } from "../components/EvidenceList.jsx";
 import { Field } from "../components/Field.jsx";
@@ -113,6 +114,10 @@ export function GenerateView({ onSaved }) {
             onChange={setEditedStructured}
             onRevisedHpiChange={setEditedHpi}
           />
+          <div className="mt-6 border-t border-slate-200 pt-5">
+            <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">Admission Criteria Checklist</h3>
+            <AdmissionCriteriaList admissionCriteria={editedStructured.admissionCriteria} />
+          </div>
           <div className="mt-6 border-t border-slate-200 pt-5">
             <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">Evidence Snippets</h3>
             <EvidenceList evidence={editedStructured.evidence} />

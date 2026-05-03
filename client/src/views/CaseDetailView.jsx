@@ -1,6 +1,7 @@
 import { ArrowLeft, Save } from "lucide-react";
 import { useEffect, useState } from "react";
 import { getCase, updateCase } from "../api/client.js";
+import { AdmissionCriteriaList } from "../components/AdmissionCriteriaList.jsx";
 import { Button } from "../components/Button.jsx";
 import { EvidenceList } from "../components/EvidenceList.jsx";
 import { StructuredEditor } from "../components/StructuredEditor.jsx";
@@ -107,9 +108,16 @@ export function CaseDetailView({ caseId, onBack }) {
 
       <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-md bg-white p-5 shadow-panel">
+          <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">Admission Criteria Checklist</h3>
+          <AdmissionCriteriaList admissionCriteria={editedStructured.admissionCriteria} />
+        </div>
+        <div className="rounded-md bg-white p-5 shadow-panel">
           <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">Machine-Generated Revised HPI</h3>
           <p className="text-sm leading-6 text-slate-700">{caseRecord.generatedRevisedHpi}</p>
         </div>
+      </section>
+
+      <section className="grid gap-4 lg:grid-cols-2">
         <div className="rounded-md bg-white p-5 shadow-panel">
           <h3 className="mb-3 text-sm font-bold uppercase tracking-wide text-slate-500">Evidence Snippets</h3>
           <EvidenceList evidence={editedStructured.evidence} />
