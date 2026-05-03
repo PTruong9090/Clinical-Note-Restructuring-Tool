@@ -6,13 +6,13 @@ The main design choice was to separate clinical reasoning from clinical writing.
 
 ## Deployed Application
 
-Deployed application: not currently deployed.
+Deployed application: clinic.phuctruong.dev .
 
-Intended deployment targets:
+Deployment targets:
 
-- Frontend: Cloudflare Pages or another static hosting provider.
-- Backend: Render, Railway, Fly.io, or another Node/Express host.
-- Database: Supabase Postgres, Render Postgres, or local Docker Postgres.
+- Frontend: Cloudflare Pages
+- Backend: Render
+- Database: Render Postgres
 
 When deployed, set the frontend `VITE_API_BASE_URL` to the backend URL and set backend `CORS_ORIGIN` to the frontend URL.
 
@@ -355,10 +355,10 @@ The main safety choice was to make the model use source-supported facts and a de
 
 ## Structured AI Prompt Used To Plan/Generate The Project
 
-This is the structured project prompt I would use to plan and generate the server and frontend in my own words:
+This is the structured project prompt I would use to plan and generate the server and frontend with Codex:
 
 ```text
-Build me a full-stack clinical note restructuring tool for a take-home software engineering assignment.
+Build me a basic full-stack clinical note restructuring tool.
 
 Goal:
 I want an app where a user can paste an ER note and an H&P note, then generate a structured clinical summary and a clean Revised HPI. The output should support admission reasoning for DKA/euglycemic DKA using deterministic rules before the LLM writes anything. The LLM should write the Revised HPI, but it should not be the only source of clinical reasoning.
