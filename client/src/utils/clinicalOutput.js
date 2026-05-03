@@ -4,17 +4,32 @@ export const emptyStructuredResult = {
   keyFindings: [],
   suspectedConditions: [],
   dispositionRecommendation: "Unknown",
+  admissionCriteria: {
+    guideline: "",
+    dispositionRecommendation: "Unknown",
+    rationale: "",
+    supportedCriteria: [],
+    unsupportedCriteria: []
+  },
   uncertainties: [],
   revisedHpi: "",
   evidence: []
 };
 
 export function normalizeStructuredResult(result = {}) {
+  const admissionCriteria = result.admissionCriteria || emptyStructuredResult.admissionCriteria;
+
   return {
     ...emptyStructuredResult,
     ...result,
     keyFindings: Array.isArray(result.keyFindings) ? result.keyFindings : [],
     suspectedConditions: Array.isArray(result.suspectedConditions) ? result.suspectedConditions : [],
+    admissionCriteria: {
+      ...emptyStructuredResult.admissionCriteria,
+      ...admissionCriteria,
+      supportedCriteria: Array.isArray(admissionCriteria.supportedCriteria) ? admissionCriteria.supportedCriteria : [],
+      unsupportedCriteria: Array.isArray(admissionCriteria.unsupportedCriteria) ? admissionCriteria.unsupportedCriteria : []
+    },
     uncertainties: Array.isArray(result.uncertainties) ? result.uncertainties : [],
     evidence: Array.isArray(result.evidence) ? result.evidence : []
   };

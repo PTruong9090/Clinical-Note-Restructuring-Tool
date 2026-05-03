@@ -46,6 +46,9 @@ describe("API", () => {
       .expect(200);
 
     expect(response.body.structuredResult.dispositionRecommendation).toBe("Admit");
+    expect(response.body.structuredResult.admissionCriteria.supportedCriteria.map((item) => item.id)).toEqual(
+      expect.arrayContaining(["dka_or_euglycemic_dka", "ketones_or_acetone", "insulin_infusion"])
+    );
     expect(response.body.revisedHpi).toMatch(/admission|inpatient|ICU/i);
   });
 

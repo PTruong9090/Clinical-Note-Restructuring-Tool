@@ -12,6 +12,16 @@ describe("extractClinicalFacts", () => {
     expect(result.suspectedConditions).toContain("Euglycemic diabetic ketoacidosis");
     expect(result.dispositionRecommendation).toBe("Admit");
     expect(result.keyFindings.join(" ")).toMatch(/insulin infusion|ICU admission/i);
+    expect(result.admissionCriteria.dispositionRecommendation).toBe("Admit");
+    expect(result.admissionCriteria.supportedCriteria.map((item) => item.id)).toEqual(
+      expect.arrayContaining([
+        "dka_or_euglycemic_dka",
+        "ketones_or_acetone",
+        "metabolic_acidosis",
+        "insulin_infusion",
+        "icu_or_frequent_monitoring"
+      ])
+    );
   });
 
   it("extracts Case B severe DKA admission support", () => {
@@ -24,6 +34,9 @@ describe("extractClinicalFacts", () => {
     expect(result.dispositionRecommendation).toBe("Admit");
     expect(result.keyFindings.join(" ")).toMatch(/altered mental status/i);
     expect(result.keyFindings.join(" ")).toMatch(/large serum or urine ketones/i);
+    expect(result.admissionCriteria.supportedCriteria.map((item) => item.id)).toEqual(
+      expect.arrayContaining(["altered_mental_status", "severe_bicarbonate_or_ph", "insulin_infusion"])
+    );
   });
 
   it("handles H&P-only Case A phrasing in the free rules fallback", () => {
@@ -40,5 +53,9 @@ describe("extractClinicalFacts", () => {
     expect(result.keyFindings).toContain("recent Jardiance use");
     expect(result.uncertainties.join(" ")).not.toMatch(/Past medical history is not clearly documented/i);
     expect(result.revisedHpi).toMatch(/inpatient admission/i);
+    expect(result.admissionCriteria.rationale).toMatch(/inpatient admission is supported/i);
+    expect(result.admissionCriteria.supportedCriteria.map((item) => item.id)).toEqual(
+      expect.arrayContaining(["dka_or_euglycemic_dka", "inability_to_tolerate_po", "severe_bicarbonate_or_ph"])
+    );
   });
 });

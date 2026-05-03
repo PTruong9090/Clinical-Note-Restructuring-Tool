@@ -1,3 +1,5 @@
+import { evaluateAdmissionCriteria } from "./admissionCriteria.js";
+
 const DKA_TERMS = /\b(dka|diabetic ketoacidosis|ketoacidosis|acetone|ketone|ketosis)\b/i;
 
 function normalizeWhitespace(value = "") {
@@ -146,21 +148,6 @@ function extractUncertainties(combined) {
   return uncertainties;
 }
 
-function inferDisposition(combined, findings) {
-  const hasDka = DKA_TERMS.test(combined);
-  const hasIcu = /\bICU|CVU|critical care\b/i.test(combined);
-  const hasInsulinDrip = /\binsulin (drip|gtt|infusion)|started on insulin/i.test(combined);
-  const hasAdmissionPlan = /\badmission requested|admitted|admit(?:ted)?\b/i.test(combined);
-  const severeAcidosis = findings.some((finding) => /pH 7\.(0|1|2|30)|CO2\s*<?\s*(7|8|9|10)|HCO3\s*<?\s*(7|8|9|10)|Bicarbonate\s*<?\s*(7|8|9|10)/i.test(finding));
-  const altered = findings.some((finding) => /altered mental status|lethargic/i.test(finding));
-
-  if (hasDka && (hasIcu || hasInsulinDrip || severeAcidosis || altered || hasAdmissionPlan)) {
-    return "Admit";
-  }
-  if (hasDka) return "Observe";
-  return "Unknown";
-}
-
 function inferConditions(combined) {
   const conditions = [];
   if (/\beuglycemic dka\b|euglycemic diabetic ketoacidosis/i.test(combined)) {
@@ -258,7 +245,13 @@ export function extractClinicalFacts({ erNote = "", hpNote = "" }) {
 
   const conditions = inferConditions(combined);
   const uncertainties = extractUncertainties(combined);
-  const dispositionRecommendation = inferDisposition(combined, findings);
+  const admissionCriteria = evaluateAdmissionCriteria({
+    combinedNote: combined,
+    findings,
+    evidence,
+    suspectedConditions: conditions
+  });
+  const dispositionRecommendation = admissionCriteria.dispositionRecommendation;
 
   const hpiSummary = demographics
     ? `${demographics} with ${conditions.join(", ")} based on source documentation.`
@@ -270,6 +263,7 @@ export function extractClinicalFacts({ erNote = "", hpNote = "" }) {
     keyFindings: findings,
     suspectedConditions: conditions,
     dispositionRecommendation,
+    admissionCriteria,
     uncertainties,
     revisedHpi: createFallbackRevisedHpi({
       demographics,
