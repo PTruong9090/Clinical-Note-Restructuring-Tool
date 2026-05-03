@@ -5,8 +5,7 @@ A full-stack clinical note restructuring tool that turns unstructured emergency 
 The main design choice was to separate clinical reasoning from clinical writing. The backend first extracts source-supported facts and runs an MCG-style deterministic admission checklist. The LLM then uses those facts and checklist results to write the Revised HPI, but it does not decide the admission criteria by itself.
 
 ## Deployed Application
-
-Deployed application: clinic.phuctruong.dev .
+Deployed application: clinic.phuctruong.dev
 
 Deployment targets:
 
